@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>יום הולדת 70 ליעקב כץ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #1a0f12;
+      --wine: #4a1828;
+      --wine-deep: #2a0e18;
+      --gold: #c9a227;
+      --gold-soft: #e8d48b;
+      --cream: #f7efe0;
+      --rose: #b85c6e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: var(--ink);
+      color: var(--cream);
+      font-family: "Heebo", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .stage {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 90% 70% at 50% 20%, rgba(74, 24, 40, 0.55), transparent 60%),
+        radial-gradient(ellipse 70% 50% at 80% 90%, rgba(201, 162, 39, 0.12), transparent 50%),
+        linear-gradient(160deg, #1a0a10 0%, #2a0e18 45%, #12080c 100%);
+    }
+
+    .photo-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .photo-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1.1s ease;
+      overflow: hidden;
+    }
+
+    .photo-slide.active { opacity: 1; z-index: 2; }
+
+    .photo-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      transform: scale(1.05);
+      filter: brightness(0.92) contrast(1.05);
+      animation: none;
+    }
+
+    .photo-slide.active img {
+      animation: kenBurns 7s ease-out forwards;
+    }
+
+    @keyframes kenBurns {
+      from { transform: scale(1.08) translate(0, 0); }
+      to { transform: scale(1.16) translate(-1.2%, -0.8%); }
+    }
+
+    .vignette {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 75% 65% at 50% 45%, transparent 35%, rgba(10, 4, 8, 0.55) 100%),
+        linear-gradient(to top, rgba(10, 4, 8, 0.75) 0%, transparent 28%),
+        linear-gradient(to bottom, rgba(10, 4, 8, 0.45) 0%, transparent 18%);
+    }
+
+    .frame {
+      position: absolute;
+      inset: 18px;
+      z-index: 4;
+      pointer-events: none;
+      border: 1px solid rgba(201, 162, 39, 0.35);
+      box-shadow: inset 0 0 0 1px rgba(247, 239, 224, 0.06);
+    }
+
+    .frame::before,
+    .frame::after {
+      content: "";
+      position: absolute;
+      width: 48px;
+      height: 48px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: 0.7;
+    }
+    .frame::before { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+    .frame::after { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+
+    .chrome {
+      position: absolute;
+      z-index: 10;
+      inset-inline: 0;
+      padding: 1.25rem 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      pointer-events: none;
+    }
+
+    .chrome.top { top: 0; }
+    .chrome.bottom { bottom: 0; padding-bottom: 0.85rem; }
+
+    .brand {
+      font-family: "Frank Ruhl Libre", serif;
+      font-weight: 700;
+      font-size: clamp(1.1rem, 2.4vw, 1.75rem);
+      letter-spacing: 0.02em;
+      color: var(--gold-soft);
+      text-shadow: 0 2px 18px rgba(0,0,0,0.55);
+    }
+
+    .brand span {
+      display: block;
+      font-family: "Heebo", sans-serif;
+      font-weight: 300;
+      font-size: 0.55em;
+      letter-spacing: 0.18em;
+      color: rgba(247, 239, 224, 0.7);
+      margin-top: 0.15rem;
+    }
+
+    .counter {
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      color: rgba(247, 239, 224, 0.65);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .scrubber-wrap {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 4.6rem;
+      z-index: 12;
+      pointer-events: auto;
+      direction: ltr;
+    }
+
+    .scrubber {
+      position: relative;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      touch-action: none;
+    }
+
+    .scrubber-track {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(247, 239, 224, 0.18);
+      overflow: hidden;
+    }
+
+    .scrubber-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--gold), var(--gold-soft));
+    }
+
+    .scrubber-thumb {
+      position: absolute;
+      top: 50%;
+      left: 0%;
+      width: 14px;
+      height: 14px;
+      margin-left: -7px;
+      margin-top: -7px;
+      border-radius: 50%;
+      background: var(--gold-soft);
+      border: 2px solid var(--wine);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.45);
+      pointer-events: none;
+    }
+
+    .scrubber:hover .scrubber-track,
+    .scrubber.dragging .scrubber-track {
+      height: 6px;
+    }
+
+    .time-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.15rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      color: rgba(247, 239, 224, 0.55);
+      font-variant-numeric: tabular-nums;
+      direction: ltr;
+    }
+
+    .controls {
+      display: flex;
+      gap: 0.55rem;
+      pointer-events: auto;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid rgba(201, 162, 39, 0.45);
+      background: rgba(26, 10, 16, 0.55);
+      color: var(--cream);
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      padding: 0.55rem 0.95rem;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+
+    .btn:hover {
+      background: rgba(74, 24, 40, 0.75);
+      border-color: var(--gold);
+    }
+
+    .btn:active { transform: scale(0.97); }
+
+    /* Screens */
+    .screen {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.9s ease;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(74, 24, 40, 0.5), transparent 65%),
+        linear-gradient(180deg, #12080c 0%, #2a0e18 50%, #12080c 100%);
+    }
+
+    .screen.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .screen.hidden-away {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .age {
+      font-family: "Frank Ruhl Libre", serif;
+      font-weight: 900;
+      font-size: clamp(5.5rem, 22vw, 11rem);
+      line-height: 0.85;
+      background: linear-gradient(165deg, #f3e6b5 10%, #c9a227 45%, #8a6a1a 90%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 8px 28px rgba(201, 162, 39, 0.25));
+      animation: riseIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .title {
+      font-family: "Frank Ruhl Libre", serif;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 5.5vw, 3.4rem);
+      margin-top: 0.35rem;
+      color: var(--cream);
+      animation: riseIn 1.2s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .subtitle {
+      margin-top: 0.85rem;
+      font-weight: 300;
+      font-size: clamp(1rem, 2.4vw, 1.25rem);
+      color: rgba(247, 239, 224, 0.72);
+      letter-spacing: 0.08em;
+      animation: riseIn 1.2s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .ornament {
+      width: min(220px, 50vw);
+      height: 1px;
+      margin: 1.6rem auto;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      animation: riseIn 1.2s 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .start-btn {
+      margin-top: 0.5rem;
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      font-family: "Heebo", sans-serif;
+      font-weight: 500;
+      font-size: 1.05rem;
+      letter-spacing: 0.14em;
+      padding: 1rem 2.4rem;
+      color: var(--ink);
+      background: linear-gradient(135deg, #e8d48b, #c9a227 55%, #a8841c);
+      box-shadow: 0 10px 40px rgba(201, 162, 39, 0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: riseIn 1.2s 0.5s cubic-bezier(0.22, 1, 0.36, 1) both, pulseGlow 2.8s 1.8s ease-in-out infinite;
+    }
+
+    .start-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 48px rgba(201, 162, 39, 0.45);
+    }
+
+    .closing .title { margin-top: 0.5rem; }
+    .closing .blessing {
+      max-width: 28rem;
+      margin: 0.75rem auto 0;
+      font-size: clamp(1rem, 2.2vw, 1.2rem);
+      line-height: 1.7;
+      font-weight: 300;
+      color: rgba(247, 239, 224, 0.8);
+      animation: riseIn 1.1s 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 10px 40px rgba(201, 162, 39, 0.35); }
+      50% { box-shadow: 0 12px 52px rgba(232, 212, 139, 0.55); }
+    }
+
+    canvas.confetti {
+      position: absolute;
+      inset: 0;
+      z-index: 25;
+      pointer-events: none;
+    }
+
+    .slideshow-ui { opacity: 0; transition: opacity 0.6s ease; }
+    .slideshow-ui.on { opacity: 1; }
+
+    @media (max-width: 640px) {
+      .frame { inset: 10px; }
+      .chrome { padding: 0.85rem 1rem; }
+      .controls { flex-wrap: wrap; justify-content: flex-end; }
+      .btn { padding: 0.45rem 0.7rem; font-size: 0.72rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="stage" id="stage">
+    <div class="photo-layer" id="photoLayer"></div>
+    <div class="vignette"></div>
+    <div class="frame"></div>
+
+    <div class="chrome top slideshow-ui" id="topChrome">
+      <div class="brand">יעקב כץ<span>שבעים שנות אור</span></div>
+    </div>
+
+    <div class="chrome bottom slideshow-ui" id="bottomChrome">
+      <div class="counter" id="counter">0 / 0</div>
+      <div class="controls">
+        <button class="btn" id="prevBtn" type="button">הקודם</button>
+        <button class="btn" id="pauseBtn" type="button">השהה</button>
+        <button class="btn" id="nextBtn" type="button">הבא</button>
+        <button class="btn" id="muteBtn" type="button">השתק</button>
+      </div>
+    </div>
+
+    <div class="scrubber-wrap slideshow-ui" id="scrubberWrap">
+      <div class="scrubber" id="scrubber" role="slider" aria-label="התקדמות המצגת" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="scrubber-track"><div class="scrubber-fill" id="scrubberFill"></div></div>
+        <div class="scrubber-thumb" id="scrubberThumb"></div>
+      </div>
+      <div class="time-row">
+        <span id="timeCurrent">0:00</span>
+        <span id="timeTotal">0:00</span>
+      </div>
+    </div>
+
+    <section class="screen visible" id="intro">
+      <div class="age">70</div>
+      <h1 class="title">יום הולדת שמח<br />יעקב כץ</h1>
+      <div class="ornament"></div>
+      <p class="subtitle">חגיגה של זיכרונות, משפחה ואהבה</p>
+      <button class="start-btn" id="startBtn" type="button">להתחיל את המסע</button>
+    </section>
+
+    <section class="screen closing" id="outro">
+      <div class="age">70</div>
+      <h2 class="title">מזל טוב, יעקב!</h2>
+      <div class="ornament"></div>
+      <p class="blessing">שנה של בריאות, שמחה ורגעים יפים עם האנשים שאוהבים אותך.<br />עד מאה ועשרים!</p>
+      <button class="start-btn" id="replayBtn" type="button" style="margin-top:1.5rem">להתחיל שוב</button>
+    </section>
+
+    <canvas class="confetti" id="confetti"></canvas>
+    <audio id="bgMusic" preload="auto" playsinline>
+      <source src="assets/yaakov.mp3" type="audio/mpeg" />
+      <source src="assets/yaakov.webm" type="audio/webm" />
+    </audio>
+  </div>
+
+  <script>
+    const PHOTOS = ["PHOTO-2026-07-12-18-37-38_2.jpg", "PHOTO-2026-07-12-18-37-41.jpg", "PHOTO-2026-07-12-18-37-37.jpg", "PHOTO-2026-07-12-18-37-40.jpg", "PHOTO-2026-07-12-18-37-40_2.jpg", "PHOTO-2026-07-12-18-37-39.jpg", "PHOTO-2026-07-12-18-37-39_2.jpg", "PHOTO-2026-07-12-18-37-39_1.jpg", "PHOTO-2026-07-12-18-37-40_1.jpg", "PHOTO-2026-07-12-18-37-38.jpg", "PHOTO-2026-07-12-18-37-38_1.jpg", "PHOTO-2026-07-21-10-47-47_19.jpg", "PHOTO-2026-07-13-10-12-08.jpg", "PHOTO-2026-07-12-19-55-53.jpg", "PHOTO-2026-07-22-15-12-25_2.jpg", "PHOTO-2026-07-21-10-47-47.jpg", "PHOTO-2026-07-22-15-12-23_4.jpg", "PHOTO-2026-07-22-15-12-15_1.jpg", "PHOTO-2026-07-22-15-12-24.jpg", "PHOTO-2026-07-12-18-37-42.jpg", "PHOTO-2026-07-21-10-47-47_1.jpg", "PHOTO-2026-07-14-20-24-35_3.jpg", "PHOTO-2026-07-21-10-47-47_16.jpg", "PHOTO-2026-07-14-18-30-09.jpg", "PHOTO-2026-07-22-15-12-24_3.jpg", "PHOTO-2026-07-22-15-12-25_1.jpg", "PHOTO-2026-07-21-10-47-47_5.jpg", "PHOTO-2026-07-21-10-47-47_39.jpg", "PHOTO-2026-07-21-10-47-47_2.jpg", "PHOTO-2026-07-14-20-24-35_1.jpg", "PHOTO-2026-07-22-15-12-22_1.jpg", "PHOTO-2026-07-22-15-12-25.jpg", "PHOTO-2026-07-21-10-47-47_43.jpg", "PHOTO-2026-07-22-15-12-23_2.jpg", "PHOTO-2026-07-22-15-12-25_5.jpg", "PHOTO-2026-07-21-10-47-47_10.jpg", "PHOTO-2026-07-21-10-47-47_13.jpg", "PHOTO-2026-07-22-15-12-26_3.jpg", "PHOTO-2026-07-21-10-47-47_27.jpg", "PHOTO-2026-07-21-10-47-47_41.jpg", "PHOTO-2026-07-21-10-47-47_24.jpg", "PHOTO-2026-07-22-15-12-24_1.jpg", "PHOTO-2026-07-21-10-47-47_4.jpg", "PHOTO-2026-07-22-15-12-24_4.jpg", "PHOTO-2026-07-14-20-24-35_6.jpg", "PHOTO-2026-07-21-10-47-47_22.jpg", "PHOTO-2026-07-14-20-24-35_5.jpg", "PHOTO-2026-07-22-15-12-24_5.jpg", "PHOTO-2026-07-14-20-24-35_2.jpg", "PHOTO-2026-07-22-15-12-26_1.jpg", "PHOTO-2026-07-21-10-47-47_11.jpg", "PHOTO-2026-07-22-15-12-24_2.jpg", "PHOTO-2026-07-22-15-12-26_4.jpg", "PHOTO-2026-07-22-15-12-15_2.jpg", "PHOTO-2026-07-21-10-47-47_42.jpg", "PHOTO-2026-07-21-10-47-47_28.jpg", "PHOTO-2026-07-21-10-47-47_40.jpg", "PHOTO-2026-07-22-15-12-26_5.jpg", "PHOTO-2026-07-22-15-12-25_6.jpg", "PHOTO-2026-07-22-15-12-23.jpg", "PHOTO-2026-07-22-15-12-26.jpg", "PHOTO-2026-07-21-10-47-47_9.jpg", "PHOTO-2026-07-21-10-47-47_26.jpg", "PHOTO-2026-07-21-10-47-47_20.jpg", "PHOTO-2026-07-21-10-47-47_3.jpg", "PHOTO-2026-07-22-15-12-21.jpg", "PHOTO-2026-07-21-10-47-47_34.jpg", "PHOTO-2026-07-22-15-12-22_3.jpg", "PHOTO-2026-07-22-15-12-22_2.jpg", "PHOTO-2026-07-22-15-12-27.jpg", "PHOTO-2026-07-21-10-47-47_15.jpg", "PHOTO-2026-07-22-15-12-14.jpg", "PHOTO-2026-07-13-10-11-28.jpg", "PHOTO-2026-07-21-10-47-47_32.jpg", "PHOTO-2026-07-22-15-12-26_2.jpg", "PHOTO-2026-07-12-18-37-41_1.jpg", "PHOTO-2026-07-22-15-12-15.jpg", "PHOTO-2026-07-14-20-24-35_7.jpg", "PHOTO-2026-07-22-15-12-22.jpg", "PHOTO-2026-07-14-20-24-35_9.jpg", "PHOTO-2026-07-21-10-47-47_33.jpg", "PHOTO-2026-07-13-10-09-35.jpg", "PHOTO-2026-07-13-10-08-24.jpg", "PHOTO-2026-07-21-10-47-47_7.jpg", "PHOTO-2026-07-21-10-47-47_8.jpg", "PHOTO-2026-07-21-10-47-47_14.jpg", "PHOTO-2026-07-22-15-12-23_1.jpg", "PHOTO-2026-07-22-15-12-25_4.jpg", "PHOTO-2026-07-21-10-47-47_35.jpg", "PHOTO-2026-07-21-10-47-47_21.jpg", "PHOTO-2026-07-21-10-47-47_44.jpg", "PHOTO-2026-07-13-10-09-06.jpg", "PHOTO-2026-07-21-10-47-47_29.jpg", "PHOTO-2026-07-21-10-47-47_17.jpg", "PHOTO-2026-07-22-15-12-23_3.jpg", "PHOTO-2026-07-21-10-47-47_6.jpg", "PHOTO-2026-07-21-10-47-47_38.jpg", "PHOTO-2026-07-21-10-47-47_25.jpg", "PHOTO-2026-07-14-20-24-35_4.jpg", "PHOTO-2026-07-21-10-47-47_30.jpg", "PHOTO-2026-07-21-10-47-47_46.jpg", "PHOTO-2026-07-21-10-47-47_12.jpg", "PHOTO-2026-07-21-10-47-47_18.jpg", "PHOTO-2026-07-21-10-47-47_36.jpg", "PHOTO-2026-07-21-10-47-47_37.jpg", "PHOTO-2026-07-22-15-12-27_1.jpg", "PHOTO-2026-07-14-20-24-35.jpg", "PHOTO-2026-07-28-22-16-43.jpg", "PHOTO-2026-07-28-22-23-34.jpg"];
+        const PHOTO_DIR = "assets/Katz/";
+    const SLIDE_MS = 2104;
+    const MUSIC_VOLUME = 0.75;
+
+    const photoLayer = document.getElementById("photoLayer");
+    const intro = document.getElementById("intro");
+    const outro = document.getElementById("outro");
+    const counter = document.getElementById("counter");
+    const pauseBtn = document.getElementById("pauseBtn");
+    const muteBtn = document.getElementById("muteBtn");
+    const bgMusic = document.getElementById("bgMusic");
+    const scrubber = document.getElementById("scrubber");
+    const scrubberFill = document.getElementById("scrubberFill");
+    const scrubberThumb = document.getElementById("scrubberThumb");
+    const timeCurrent = document.getElementById("timeCurrent");
+    const timeTotal = document.getElementById("timeTotal");
+    const uiEls = document.querySelectorAll(".slideshow-ui");
+
+    let index = 0;
+    let playing = false;
+    let paused = false;
+    let muted = false;
+    let direction = 1;
+    let timer = null;
+    let progressRaf = null;
+    let slideStartedAt = 0;
+    let remainingMs = SLIDE_MS;
+    let slots = [];
+    let activeSlot = 0;
+    let musicWanted = false;
+    let scrubbing = false;
+    let scrubMs = 0;
+
+    const totalMs = () => PHOTOS.length * SLIDE_MS;
+
+    bgMusic.volume = MUSIC_VOLUME;
+    bgMusic.loop = false;
+    bgMusic.preload = "auto";
+    bgMusic.load();
+
+    function formatTime(ms) {
+      const sec = Math.max(0, Math.floor(ms / 1000));
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return m + ":" + String(s).padStart(2, "0");
+    }
+
+    function timelinePosMs() {
+      if (!playing) return 0;
+      // When paused, scrubbing, or between timers, trust remainingMs
+      if (paused || scrubbing || !timer) {
+        return Math.min(totalMs(), index * SLIDE_MS + (SLIDE_MS - remainingMs));
+      }
+      const within = Math.min(SLIDE_MS, performance.now() - slideStartedAt);
+      return Math.min(totalMs(), index * SLIDE_MS + within);
+    }
+
+    function updateScrubber(ms) {
+      const total = totalMs();
+      const pct = total ? Math.min(100, (ms / total) * 100) : 0;
+      scrubberFill.style.width = pct + "%";
+      scrubberThumb.style.left = pct + "%";
+      scrubber.setAttribute("aria-valuenow", String(Math.round(pct)));
+      timeCurrent.textContent = formatTime(ms);
+      timeTotal.textContent = formatTime(total);
+    }
+
+    /** Presentation is authored to match the song (~equal length). */
+    function musicLengthsMatch(dur) {
+      return Math.abs(totalMs() / 1000 - dur) <= 2;
+    }
+
+    function musicTimeForMs(ms) {
+      const dur = bgMusic.duration;
+      if (!dur || !isFinite(dur) || dur <= 0) return null;
+      const presentationSec = Math.max(0, ms / 1000);
+      // Never seek onto the final frame — browsers often fire "ended" / stall there
+      const maxSeek = Math.max(0, dur - 0.12);
+      if (musicLengthsMatch(dur) || presentationSec <= dur) {
+        return Math.min(presentationSec, maxSeek);
+      }
+      // Song shorter than presentation: wrap only when needed
+      let t = presentationSec % dur;
+      if (t < 0) t += dur;
+      if (t > maxSeek) t = 0;
+      return t;
+    }
+
+    /** Seek audio once (start / scrub release / prev-next). Never during normal playback. */
+    function seekAudioToMs(ms) {
+      const t = musicTimeForMs(ms);
+      if (t === null) return;
+      try {
+        bgMusic.currentTime = t;
+      } catch (_) {}
+    }
+
+    function ensureMusicPlaying() {
+      if (!musicWanted || paused || scrubbing) return;
+      bgMusic.muted = muted;
+      bgMusic.volume = MUSIC_VOLUME;
+      if (bgMusic.paused) {
+        bgMusic.play().catch(() => {});
+      }
+    }
+
+    function startMusic() {
+      musicWanted = true;
+      bgMusic.loop = false;
+      bgMusic.muted = muted;
+      bgMusic.volume = MUSIC_VOLUME;
+      seekAudioToMs(timelinePosMs());
+      const playPromise = bgMusic.play();
+      if (playPromise && playPromise.catch) {
+        playPromise.catch((err) => {
+          console.warn("Music play failed:", err);
+          alert("לא הצלחתי להפעיל את המוזיקה. ודא שהכרטיסייה לא מושתקת ונסה שוב.");
+        });
+      }
+    }
+
+    function pauseMusic() {
+      musicWanted = false;
+      bgMusic.pause();
+    }
+
+    function resumeMusic() {
+      musicWanted = true;
+      bgMusic.muted = muted;
+      bgMusic.volume = MUSIC_VOLUME;
+      // Audio stayed paused at the same spot — do not re-seek (avoids glitches)
+      bgMusic.play().catch(() => {});
+    }
+
+    function setMusicMuted(isMuted) {
+      muted = isMuted;
+      bgMusic.muted = isMuted;
+      if (!isMuted) bgMusic.volume = MUSIC_VOLUME;
+    }
+
+    bgMusic.addEventListener("ended", () => {
+      if (!musicWanted || scrubbing || paused || !playing) return;
+      const dur = bgMusic.duration;
+      const posSec = timelinePosMs() / 1000;
+      // Song ≈ show: natural finish near the end — leave silent until outro
+      if (dur && musicLengthsMatch(dur) && posSec >= dur - 1) return;
+      // Still mid-show and music ended early: soft restart aligned to timeline
+      const t = musicTimeForMs(timelinePosMs());
+      if (t === null) return;
+      try {
+        bgMusic.currentTime = t;
+      } catch (_) {}
+      bgMusic.play().catch(() => {});
+    });
+
+    // Recover from buffer stalls without seeking (seeking mid-play causes cuts)
+    bgMusic.addEventListener("stalled", () => ensureMusicPlaying());
+    bgMusic.addEventListener("waiting", () => ensureMusicPlaying());
+    bgMusic.addEventListener("suspend", () => ensureMusicPlaying());
+    bgMusic.addEventListener("error", () => {
+      if (musicWanted && !paused && !scrubbing) {
+        setTimeout(() => ensureMusicPlaying(), 250);
+      }
+    });
+
+    function buildSlots() {
+      photoLayer.innerHTML = "";
+      slots = [0, 1].map(() => {
+        const slide = document.createElement("div");
+        slide.className = "photo-slide";
+        const img = document.createElement("img");
+        img.alt = "";
+        img.decoding = "async";
+        slide.appendChild(img);
+        photoLayer.appendChild(slide);
+        return { slide, img };
+      });
+    }
+
+    function showPhoto(i, slotIdx) {
+      const slot = slots[slotIdx];
+      const other = slots[1 - slotIdx];
+      slot.img.src = PHOTO_DIR + encodeURIComponent(PHOTOS[i]).replace(/%2F/g, "/");
+      slot.img.style.animation = "none";
+      void slot.img.offsetWidth;
+      slot.img.style.animation = "";
+      slot.slide.classList.add("active");
+      other.slide.classList.remove("active");
+      counter.textContent = (i + 1) + " / " + PHOTOS.length;
+    }
+
+    function goTo(i, { resetProgress = true, syncMusic = false } = {}) {
+      if (i < 0) {
+        index = 0;
+        showPhoto(index, activeSlot);
+        remainingMs = SLIDE_MS;
+        paused = true;
+        pauseBtn.textContent = "המשך";
+        clearSlideTimer();
+        updateScrubber(0);
+        return;
+      }
+      if (i >= PHOTOS.length) {
+        endShow();
+        return;
+      }
+      index = i;
+      activeSlot = 1 - activeSlot;
+      showPhoto(index, activeSlot);
+      const next = index + direction;
+      if (next >= 0 && next < PHOTOS.length) {
+        const pre = new Image();
+        pre.src = PHOTO_DIR + encodeURIComponent(PHOTOS[next]).replace(/%2F/g, "/");
+      }
+      if (resetProgress) {
+        remainingMs = SLIDE_MS;
+        if (playing && !paused && !scrubbing) startSlideTimer();
+      }
+      if (syncMusic) {
+        seekAudioToMs(index * SLIDE_MS + (SLIDE_MS - remainingMs));
+        ensureMusicPlaying();
+      }
+      updateScrubber(index * SLIDE_MS + (SLIDE_MS - remainingMs));
+    }
+
+    function clearSlideTimer() {
+      if (timer) clearTimeout(timer);
+      timer = null;
+      if (progressRaf) cancelAnimationFrame(progressRaf);
+      progressRaf = null;
+    }
+
+    function startSlideTimer() {
+      clearSlideTimer();
+      slideStartedAt = performance.now();
+      const duration = remainingMs;
+      const base = index * SLIDE_MS + (SLIDE_MS - remainingMs);
+
+      const tick = (now) => {
+        if (scrubbing) return;
+        const elapsed = now - slideStartedAt;
+        const pos = Math.min(totalMs(), base + elapsed);
+        updateScrubber(pos);
+        // Do NOT write audio.currentTime here — periodic seeks cause audible cuts
+        if (elapsed < duration) {
+          progressRaf = requestAnimationFrame(tick);
+        }
+      };
+      progressRaf = requestAnimationFrame(tick);
+
+      timer = setTimeout(() => {
+        remainingMs = SLIDE_MS;
+        goTo(index + direction);
+      }, duration);
+    }
+
+    function seekToMs(ms, { duringScrub = false } = {}) {
+      const total = totalMs();
+      ms = Math.max(0, Math.min(total - 1, ms));
+      scrubMs = ms;
+      const i = Math.min(PHOTOS.length - 1, Math.floor(ms / SLIDE_MS));
+      const within = ms - i * SLIDE_MS;
+      remainingMs = Math.max(50, SLIDE_MS - within);
+      clearSlideTimer();
+      index = i;
+      activeSlot = 1 - activeSlot;
+      showPhoto(index, activeSlot);
+      updateScrubber(ms);
+
+      if (duringScrub) {
+        // Keep audio paused while dragging; seek only on release
+        bgMusic.pause();
+        return;
+      }
+
+      seekAudioToMs(ms);
+      if (playing && !paused) {
+        startSlideTimer();
+        musicWanted = true;
+        bgMusic.muted = muted;
+        bgMusic.volume = MUSIC_VOLUME;
+        bgMusic.play().catch(() => {});
+      }
+    }
+
+    function ratioFromEvent(e) {
+      const rect = scrubber.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      return Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    }
+
+    function bindScrubber() {
+      const onDown = (e) => {
+        if (!playing) return;
+        e.preventDefault();
+        scrubbing = true;
+        scrubber.classList.add("dragging");
+        try {
+          scrubber.setPointerCapture(e.pointerId);
+        } catch (_) {}
+        clearSlideTimer();
+        bgMusic.pause();
+        seekToMs(ratioFromEvent(e) * totalMs(), { duringScrub: true });
+      };
+      const onMove = (e) => {
+        if (!scrubbing) return;
+        e.preventDefault();
+        seekToMs(ratioFromEvent(e) * totalMs(), { duringScrub: true });
+      };
+      const onUp = () => {
+        if (!scrubbing) return;
+        scrubbing = false;
+        scrubber.classList.remove("dragging");
+        // Prefer last scrub position (timelinePosMs()===0 is falsy and was a bug)
+        const ms = scrubMs;
+        seekToMs(ms, { duringScrub: false });
+      };
+      scrubber.addEventListener("pointerdown", onDown);
+      window.addEventListener("pointermove", onMove);
+      window.addEventListener("pointerup", onUp);
+      window.addEventListener("pointercancel", onUp);
+    }
+
+    function endShow() {
+      playing = false;
+      paused = false;
+      clearSlideTimer();
+      pauseMusic();
+      updateScrubber(totalMs());
+      uiEls.forEach((el) => el.classList.remove("on"));
+      outro.classList.add("visible");
+      outro.classList.remove("hidden-away");
+      burstConfetti(140);
+    }
+
+    function startShow() {
+      intro.classList.remove("visible");
+      intro.classList.add("hidden-away");
+      outro.classList.remove("visible");
+      outro.classList.add("hidden-away");
+      uiEls.forEach((el) => el.classList.add("on"));
+      playing = true;
+      paused = false;
+      scrubbing = false;
+      direction = 1;
+      pauseBtn.textContent = "השהה";
+      remainingMs = SLIDE_MS;
+      index = 0;
+      try {
+        bgMusic.currentTime = 0;
+      } catch (_) {}
+      startMusic();
+      goTo(0);
+      burstConfetti(90);
+    }
+
+    function togglePause() {
+      if (!playing) return;
+      if (paused) {
+        paused = false;
+        pauseBtn.textContent = "השהה";
+        startSlideTimer();
+        resumeMusic();
+      } else {
+        paused = true;
+        pauseBtn.textContent = "המשך";
+        const elapsed = performance.now() - slideStartedAt;
+        remainingMs = Math.max(50, remainingMs - elapsed);
+        clearSlideTimer();
+        const ms = index * SLIDE_MS + (SLIDE_MS - remainingMs);
+        updateScrubber(ms);
+        pauseMusic();
+      }
+    }
+
+    function toggleMute() {
+      setMusicMuted(!muted);
+      muteBtn.textContent = muted ? "השמע" : "השתק";
+      if (playing && !paused) {
+        musicWanted = true;
+        bgMusic.play().catch(() => {});
+      }
+    }
+
+    // Confetti
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+    let confettiRaf = null;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function burstConfetti(count) {
+      const colors = ["#c9a227", "#e8d48b", "#f7efe0", "#b85c6e", "#4a1828", "#d4af37"];
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: -20 - Math.random() * 80,
+          w: 4 + Math.random() * 6,
+          h: 6 + Math.random() * 10,
+          vx: -2 + Math.random() * 4,
+          vy: 2 + Math.random() * 4,
+          rot: Math.random() * Math.PI,
+          vr: -0.12 + Math.random() * 0.24,
+          color: colors[(Math.random() * colors.length) | 0],
+          life: 120 + Math.random() * 80,
+        });
+      }
+      if (!confettiRaf) confettiLoop();
+    }
+
+    function confettiLoop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles = particles.filter((p) => p.life > 0);
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.045;
+        p.rot += p.vr;
+        p.life -= 1;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.globalAlpha = Math.min(1, p.life / 40);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+      }
+      if (particles.length) confettiRaf = requestAnimationFrame(confettiLoop);
+      else {
+        confettiRaf = null;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    document.getElementById("startBtn").addEventListener("click", startShow);
+    document.getElementById("replayBtn").addEventListener("click", () => {
+      outro.classList.remove("visible");
+      startShow();
+    });
+    document.getElementById("prevBtn").addEventListener("click", () => {
+      if (!playing) return;
+      remainingMs = SLIDE_MS;
+      goTo(Math.max(0, index - 1), { syncMusic: true });
+    });
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      if (!playing) return;
+      remainingMs = SLIDE_MS;
+      goTo(index + 1, { syncMusic: true });
+    });
+    pauseBtn.addEventListener("click", togglePause);
+    muteBtn.addEventListener("click", toggleMute);
+    bindScrubber();
+
+    document.addEventListener("keydown", (e) => {
+      if (e.code === "Space") {
+        e.preventDefault();
+        if (!playing && intro.classList.contains("visible")) startShow();
+        else togglePause();
+      } else if (e.code === "ArrowLeft") {
+        if (playing) {
+          remainingMs = SLIDE_MS;
+          goTo(index + 1, { syncMusic: true });
+        }
+      } else if (e.code === "ArrowRight") {
+        if (playing) {
+          remainingMs = SLIDE_MS;
+          goTo(Math.max(0, index - 1), { syncMusic: true });
+        }
+      } else if (e.key === "m" || e.key === "M" || e.key === "ם") {
+        if (playing) toggleMute();
+      }
+    });
+
+    setTimeout(() => burstConfetti(40), 600);
+    buildSlots();
+    timeTotal.textContent = formatTime(totalMs());
+    if (PHOTOS.length) {
+      const warm = new Image();
+      warm.src = PHOTO_DIR + encodeURIComponent(PHOTOS[0]).replace(/%2F/g, "/");
+    }
+
+  </script>
+</body>
+</html>
